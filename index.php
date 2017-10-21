@@ -65,4 +65,40 @@ print_r($_POST);
 }
 }
 
+class honepage extends page
+{
+public function get()
+{
+$form = '<form method="post" enctype="multipart/form-data">';
+$form .= '<input type="file" name="fileToUpload" id="fileToUpload">';
+$form .= '<input type="submit" value="Upload Image" name="Submit">';
+$form .= '</form>';
+$this->html .= '<h1>Upload Form</h1>';
+$this->html .= $form;
+}
+
+public function post()
+{
+$target_dir = "Uploads/";
+$$target_file = $target_dir . basename($_FILES["file ToUpload"]["name"]);
+$uploadOk = 1;
+$imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
+$imageFileNAme = pathinfo($target_file, PATHINFO_BASENAME);
+move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
+header('Location: index.php?page=htmlTable&filename='.$imageFileName);
+}
+}
+
+class htmlTable extends page
+{
+}
+
+class stringFunctions
+{
+static public function printThis($inputText)
+{
+return print($inputText);
+}
+}
+
 ?>
