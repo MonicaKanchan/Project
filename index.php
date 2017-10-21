@@ -83,14 +83,39 @@ $target_dir = "Uploads/";
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 $uploadOk = 1;
 $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
-$imageFileNAme = pathinfo($target_file, PATHINFO_BASENAME);
+$imageFileName = pathinfo($target_file, PATHINFO_BASENAME);
 move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
-header('Location: index.php?page=htmlTable&filename='.$imageFileName);
+header('Location: index.php?Nextpage=htmlTable&filename='.$imageFileName);
 }
 }
 
 class htmlTable extends Nextpage
 {
+public function get()
+{
+$filename=$_REQUEST['filename'];
+$file = fopen("Uploads/".$filename, "r");
+$tablehtml = "";
+//$data = array();
+$i=0;
+$tablehtml .= '<table border= "1">';
+while(! feof($file))
+{
+$data=fgetcsv($file);
+$count=count($data);
+$tablehtml .= '<tr>';
+for($i=0; $i<$count; $i++)
+{
+$tablehtml .= '<td>' .$data[$i].'</td>';
+}
+$tablehtml .= '</tr>';
+}
+$tablehtml .= '</table>';
+
+fclose($file);
+print($tablehtml);
+}
+
 }
 
 class stringFunctions
