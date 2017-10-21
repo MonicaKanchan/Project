@@ -17,12 +17,12 @@ $obj = new main();
 
 class main
 {
-public function _construct()
+public function __construct()
 {
-$pageRequest = 'homepage';
-if (isset($_REQUEST['page']))
+$pageRequest = 'Homepage';
+if (isset($_REQUEST['Nextpage']))
 {
-$pageRequest = $_Request['page'];
+$pageRequest = $_REQUEST['Nextpage'];
 }
 
 $page = new $pageRequest;
@@ -38,17 +38,17 @@ $page->post();
 }
 }
 
-abstract class page
+abstract class Nextpage
 {
 protected $html;
 
-public function _construct()
+public function __construct()
 {
 $this->html .= '<html>';
 $this->html .= '<link rel= "stylesheet" href= "styles.css">';
 $this->html .= '<body>';
 }
-public function _destruct()
+public function __destruct()
 {
 $this->html .= '</body></html>';
 stringFunctions::printThis($this->html);
@@ -65,13 +65,13 @@ print_r($_POST);
 }
 }
 
-class honepage extends page
+class Homepage extends Nextpage
 {
 public function get()
 {
 $form = '<form method="post" enctype="multipart/form-data">';
 $form .= '<input type="file" name="fileToUpload" id="fileToUpload">';
-$form .= '<input type="submit" value="Upload Image" name="Submit">';
+$form .= '<input type="submit" value="Upload" name="Submit">';
 $form .= '</form>';
 $this->html .= '<h1>Upload Form</h1>';
 $this->html .= $form;
@@ -80,7 +80,7 @@ $this->html .= $form;
 public function post()
 {
 $target_dir = "Uploads/";
-$$target_file = $target_dir . basename($_FILES["file ToUpload"]["name"]);
+$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 $uploadOk = 1;
 $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
 $imageFileNAme = pathinfo($target_file, PATHINFO_BASENAME);
@@ -89,7 +89,7 @@ header('Location: index.php?page=htmlTable&filename='.$imageFileName);
 }
 }
 
-class htmlTable extends page
+class htmlTable extends Nextpage
 {
 }
 
@@ -99,6 +99,7 @@ static public function printThis($inputText)
 {
 return print($inputText);
 }
+
 }
 
 ?>
