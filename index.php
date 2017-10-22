@@ -13,13 +13,16 @@ include $class . '.php';
 
 spl_autoload_register(array('Manage', 'autoload'));
 
+//instantiating the object
 $obj = new main();
 
 class main
 {
 public function __construct()
 {
+
 $pageRequest = 'Homepage';
+//checking parameters
 if (isset($_REQUEST['Nextpage']))
 {
 $pageRequest = $_REQUEST['Nextpage'];
@@ -45,6 +48,7 @@ protected $html;
 public function __construct()
 {
 $this->html .= '<html>';
+//Link to css file
 $this->html .= '<link rel= "stylesheet" href= "styles.css">';
 $this->html .= '<body>';
 }
@@ -79,12 +83,15 @@ $this->html .= $form;
 
 public function post()
 {
+//directory for saving uploaded csv file
 $target_dir = "Uploads/";
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 $uploadOk = 1;
 $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
 $imageFileName = pathinfo($target_file, PATHINFO_BASENAME);
+//uploading the csv file
 move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
+//header for the uploaded csv file
 header('Location: index.php?Nextpage=htmlTable&filename='.$imageFileName);
 }
 }
@@ -94,9 +101,9 @@ class htmlTable extends Nextpage
 public function get()
 {
 $filename=$_REQUEST['filename'];
+//parameters for table
 $file = fopen("Uploads/".$filename, "r");
 $tablehtml = "";
-//$data = array();
 $i=0;
 $tablehtml .= '<table border= "1">';
 while(! feof($file))
